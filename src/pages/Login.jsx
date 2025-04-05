@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginForm from "../components/LoginForm";
 
 const Login = () => {
   // TODO: Implementar el contexto y la autenticación conectandose con la BD
@@ -11,7 +12,7 @@ const Login = () => {
     }
   }, []);
 
-  return <div>Pantalla para el Inicio de Sesión</div>;
+  return <LoginForm />;
 };
 
 export default Login;
