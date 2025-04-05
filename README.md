@@ -49,6 +49,8 @@ En este proyecto, los estudiantes desarrollarán una aplicación básica que inc
 
 - **ReactJS** para el desarrollo del frontend.
 - **React Router** para la navegación segura y protegida.
+- **React Toastify** para las notificaciones en pantalla.
+- **React Hook Form** para la gestión de los fórmularios.
 - **Axios** para la comunicación con el backend.
 - **CSS / Tailwind** para el estilizado de la aplicación.
 
@@ -81,12 +83,11 @@ En este proyecto, los estudiantes desarrollarán una aplicación básica que inc
 
 ```
 src/
+├── assets/
 ├── components/
-├── pages/
-├── routes/
-├── services/
 ├── contexts/
-└── utils/
+├── hooks/
+├── pages/
 ```
 
 ---
