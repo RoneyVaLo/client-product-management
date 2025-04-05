@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
 
 import Home from "./pages/Home";
 import ProductManagement from "./pages/ProductManagement";
@@ -9,7 +9,7 @@ import Layout from "./components/Layout";
 
 const App = () => {
   // TODO: Implementar esto con el contexto
-  const user = false;
+  const user = {isLogin: true, role: "SuperAdmin"};
 
   const router = createBrowserRouter([
     {
@@ -19,7 +19,7 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: user ? <Layout /> : <Login />,
+          element: user.isLogin ? <Layout /> : <Login />,
           errorElement: <div>Not Found 404</div>,
           children: [
             {
@@ -28,7 +28,7 @@ const App = () => {
             },
             { path: "/users", element: <UserManagement /> },
             { path: "/products", element: <ProductManagement /> },
-            { path: "/roles", element: <RoleManagement /> },
+            { path: "/roles", element: (user.role.toLowerCase() === "superadmin") ? <RoleManagement /> : <Navigate to="/" replace /> },
           ],
         },
       ],
