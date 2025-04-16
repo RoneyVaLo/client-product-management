@@ -1,4 +1,9 @@
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
 
 import Home from "./pages/Home";
 import ProductManagement from "./pages/ProductManagement";
@@ -6,32 +11,55 @@ import UserManagement from "./pages/UserManagement";
 import RoleManagement from "./pages/RoleManagement";
 import Login from "./pages/Login";
 import Layout from "./components/Layout";
+import { useAuth } from "./contexts/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 const App = () => {
-  // TODO: Implementar esto con el contexto
-  const user = {isLogin: true, role: "SuperAdmin"};
+  const { user, loading } = useAuth();
+
+  if (loading) return <div>Cargando...</div>;
 
   const router = createBrowserRouter([
     {
+      path: "/login",
+      element: <PublicRoute />,
+      errorElement: <div>Not Found 404</div>,
+      children: [
+        {
+          path: "/login",
+          element: <Login />,
+        },
+      ],
+    },
+    {
       path: "/",
-      element: <Outlet />,
+      element: <ProtectedRoute />,
       errorElement: <div>Not Found 404</div>,
       children: [
         {
           path: "/",
-          element: user.isLogin ? <Layout /> : <Login />,
-          errorElement: <div>Not Found 404</div>,
+          element: <Layout />,
           children: [
+            { path: "/", element: <Home /> },
+            { path: "users", element: <UserManagement /> },
+            { path: "products", element: <ProductManagement /> },
             {
-              path: "/",
-              element: <Home />,
+              path: "roles",
+              element:
+                user?.role.toLowerCase() === "superadmin" ? (
+                  <RoleManagement />
+                ) : (
+                  <Navigate to="/" replace />
+                ),
             },
-            { path: "/users", element: <UserManagement /> },
-            { path: "/products", element: <ProductManagement /> },
-            { path: "/roles", element: (user.role.toLowerCase() === "superadmin") ? <RoleManagement /> : <Navigate to="/" replace /> },
           ],
         },
       ],
+    },
+    {
+      path: "*",
+      element: <div>404 Not Found</div>,
     },
   ]);
 

@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import Eye from "./icons/Eye";
 import EyeOff from "./icons/Eyeoff";
 
-function LoginForm() {
-  
+function LoginForm({ handleLogin }) {
   const {
     register,
     handleSubmit,
@@ -21,7 +20,9 @@ function LoginForm() {
 
   const onSubmit = async (data) => {
     console.log("Intentando iniciar sesión con:", data);
-    // Aquí iría tu lógica de autenticación
+    // Aquí va la lógica de autenticación
+    handleLogin(data);
+    
   };
 
   return (
@@ -46,7 +47,11 @@ function LoginForm() {
                 required: "El nombre de usuario es obligatorio",
               })}
             />
-            {errors.username && <p className="text-xs text-red-400 font-bold">{errors.username.message}</p>}
+            {errors.username && (
+              <p className="text-xs text-red-400 font-bold">
+                {errors.username.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <label htmlFor="password" className="text-sm font-medium">
@@ -71,24 +76,24 @@ function LoginForm() {
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <Eye />
-                ) : (
-                  <EyeOff />
-                )}
+                {showPassword ? <Eye /> : <EyeOff />}
                 <span className="sr-only">
                   {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                 </span>
               </button>
 
-              {errors.password && <p className="text-xs text-red-400 font-bold">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="text-xs text-red-400 font-bold">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
         <div className="p-6 pt-0 flex flex-col">
           <button
             type="submit"
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 w-full"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-slate-900 text-white hover:bg-slate-800 w-full"
           >
             {isSubmitting ? "Verificando..." : "Iniciar Sesión"}
           </button>
