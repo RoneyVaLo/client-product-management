@@ -18,7 +18,7 @@ const Layout = () => {
       <header className="w-full bg-red-200">
         <button onClick={handleLogout}>Salir</button>
       </header>
-      <main>
+      <main className="container mx-auto mt-4 px-4">
         <Outlet />
       </main>
     </>
