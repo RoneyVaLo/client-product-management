@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import Eye from "./icons/Eye";
-import EyeOff from "./icons/Eyeoff";
+import TogglePasswordButton from "./common/TogglePasswordButton";
 
 function LoginForm({ handleLogin }) {
   const {
@@ -19,8 +18,8 @@ function LoginForm({ handleLogin }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log("Intentando iniciar sesión con:", data);
-    // Aquí va la lógica de autenticación
+    // console.log("Intentando iniciar sesión con:", data);
+    
     handleLogin(data);
   };
 
@@ -71,17 +70,10 @@ function LoginForm({ handleLogin }) {
                     },
                   })}
                 />
-                <button
-                  type="button"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <Eye /> : <EyeOff />}
-                  <span className="sr-only">
-                    {showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                  </span>
-                </button>
-
+                <TogglePasswordButton
+                  show={showPassword}
+                  toggle={() => setShowPassword(!showPassword)}
+                />
                 {errors.password && (
                   <p className="text-xs text-red-400 font-bold">
                     {errors.password.message}

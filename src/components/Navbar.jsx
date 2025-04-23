@@ -7,9 +7,12 @@ import Package from "./icons/Package";
 import Menu from "./icons/Menu";
 import LogOut from "./icons/LogOut";
 import Cancel from "./icons/Cancel";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  const { user } = useAuth();
 
   const pathname = location.pathname;
 
@@ -38,11 +41,10 @@ const Navbar = () => {
     },
   ];
 
-  // TODO: Integrar esto con la información que el backend mande del usuario, usando el contexto
-  const userRole = "SuperAdmin";
-
   const filteredNavItems = navItems.filter(
-    (item) => !item.role || item.role === userRole.toLowerCase()
+    (item) =>
+      !item.role ||
+      item.role === user.Role.toLowerCase()
   );
 
   return (
@@ -146,12 +148,14 @@ const Navbar = () => {
       {/* Avatar y datos de usuario */}
       <div className="ml-auto flex items-center gap-4">
         <div className="hidden md:block">
-          <div className="text-sm font-medium">Admin</div>
-          <div className="text-xs text-gray-500">admin@example.com</div>
+          <div className="text-sm font-medium">{user.name}</div>
+          <div className="text-xs text-gray-500">
+            {user.Role ? user.Role : "Sin Rol"}
+          </div>
         </div>
         <div className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
           <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-sm font-medium">
-            AD
+            {user.name.substring(0, 2).toUpperCase()}
           </div>
         </div>
       </div>

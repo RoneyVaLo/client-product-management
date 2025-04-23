@@ -13,15 +13,19 @@ const Login = () => {
     try {
       const response = await login(userData);
 
-      const { code, message } = response;
+      const { status } = response;
 
-      if (code === 200) {
-        toast.success(message, {
+      if (status === 429) {
+        toast.error("Demasiadas solicitudes, inténtelo de nuevo más tarde.", {
+          position: "top-center",
+        });
+      } else  if (status === 200) {
+        toast.success("Inicio de Sesión Exitoso!", {
           position: "top-center",
         });
         navigate("/");
       } else {
-        toast.error(message, {
+        toast.error("Usuario o Contraseña Inválido!", {
           position: "top-center",
         });
       }

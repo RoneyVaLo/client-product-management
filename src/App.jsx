@@ -14,6 +14,8 @@ import Layout from "./components/Layout";
 import { useAuth } from "./contexts/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
+import ProductForm from "./pages/ProductForm";
+import UserForm from "./pages/UserForm";
 
 const App = () => {
   const { user, loading } = useAuth();
@@ -41,13 +43,18 @@ const App = () => {
           path: "/",
           element: <Layout />,
           children: [
+            // TODO: Añadir restricciones por rol a cada ruta
             { path: "/", element: <Home /> },
             { path: "users", element: <UserManagement /> },
+            { path: "users/new", element: <UserForm /> },
+            { path: "users/:id", element: <UserForm /> },
             { path: "products", element: <ProductManagement /> },
+            { path: "products/new", element: <ProductForm /> },
+            { path: "products/:id", element: <ProductForm /> },
             {
               path: "roles",
               element:
-                user?.role.toLowerCase() === "superadmin" ? (
+                user?.Role.toLowerCase() === "superadmin" ? (
                   <RoleManagement />
                 ) : (
                   <Navigate to="/" replace />
@@ -56,6 +63,10 @@ const App = () => {
           ],
         },
       ],
+    },
+    {
+      path: "/redirecting",
+      element: <div>Redireccionando...</div>,
     },
     {
       path: "*",

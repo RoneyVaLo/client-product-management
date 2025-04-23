@@ -88,6 +88,7 @@ src/
 ├── contexts/
 ├── hooks/
 ├── pages/
+├── routes/
 ```
 
 ---

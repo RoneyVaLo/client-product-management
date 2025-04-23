@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "code": "PRD001",
+    "name": "Laptop Pro",
+    "description": "Laptop de alta gama para profesionales",
+    "quantity": 25,
+    "price": 1299.99
+  },
+  {
+    "id": "2",
+    "code": "PRD002",
+    "name": "Smartphone X",
+    "description": "Smartphone con cámara de alta resolución",
+    "quantity": 50,
+    "price": 899.99
+  },
+  {
+    "id": "3",
+    "code": "PRD003",
+    "name": "Tablet Mini",
+    "description": "Tablet compacta y ligera",
+    "quantity": 30,
+    "price": 499.99
+  },
+  {
+    "id": "4",
+    "code": "PRD004",
+    "name": "Monitor 4K",
+    "description": "Monitor de alta resolución para diseñadores",
+    "quantity": 15,
+    "price": 699.99
+  },
+  {
+    "id": "5",
+    "code": "PRD005",
+    "name": "Teclado Mecánico",
+    "description": "Teclado mecánico para gamers",
+    "quantity": 40,
+    "price": 129.99
+  }
+]
