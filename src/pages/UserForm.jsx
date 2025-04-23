@@ -71,7 +71,9 @@ const UserForm = () => {
   const updateUser = async (updatedData) => {
     try {
       console.log(updatedData)
-      const response = await axios.put(`${BASE_URL}/${id}`, {updatedData}, {
+      updatedData.roleId = updatedData.Role;
+      delete updatedData.Role;
+      const response = await axios.put(`${BASE_URL}/${id}`, updatedData, {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
         },
@@ -82,7 +84,7 @@ const UserForm = () => {
     }
   };
 
-  console.log(roles)
+  // console.log(roles)
   const onSubmit = async (data) => {
     delete data.confirmationPassword;
     data.Role = roles.find((role) => role.id === parseInt(data.Role)).id;
