@@ -8,7 +8,7 @@ import DataTable from "../components/common/DataTable";
 const UserManagement = () => {
   const BASE_URL = "http://localhost:3000/api/users";
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +46,7 @@ const UserManagement = () => {
   }, []);
 
   const renderUserRow = (user) => (
-    <UserRow key={user.id} user={user} onDelete={handleDelete} />
+    <UserRow key={user.id} userShow={user} onDelete={handleDelete} />
   );
 
   // Filtrar productos basados en término de búsqueda

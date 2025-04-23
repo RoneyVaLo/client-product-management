@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import FormHeader from "../components/common/FormHeader";
 import FormSection from "../components/common/FormSection";
 import TextInput from "../components/common/TextInput";
@@ -85,6 +85,10 @@ const ProductForm = () => {
   const goBack = () => {
     navigate(-1);
   };
+
+  if (user?.Role !== "Registrador") {
+      return <Navigate to="/" replace />
+    }
 
   return (
     <section className="space-y-6">

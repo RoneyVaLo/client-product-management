@@ -2,8 +2,10 @@ import React from "react";
 import Edit from "./icons/Edit";
 import Trash from "./icons/Trash";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const ProductRow = ({ product, onDelete }) => {
+  const { user } = useAuth();
   product.price = parseFloat(product.price);
   const quantityClass =
     product.quantity > 20
@@ -25,20 +27,25 @@ const ProductRow = ({ product, onDelete }) => {
       <td className="p-4">${product.price.toFixed(2)}</td>
       <td className="p-4 text-right">
         <div className="flex justify-end gap-2">
-          <NavLink
-            to={`/products/${product.id}`}
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 p-0 hover:bg-gray-100"
-            aria-label="Editar producto"
-          >
-            <Edit />
-          </NavLink>
-          <button
-            onClick={() => onDelete(product.id)}
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 p-0 hover:bg-gray-100"
-            aria-label="Eliminar producto"
-          >
-            <Trash />
-          </button>
+          {user.Role === "Registrador" && (
+            <>
+              <NavLink
+                to={`/products/${product.id}`}
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 p-0 hover:bg-gray-100"
+                aria-label="Editar producto"
+              >
+                <Edit />
+              </NavLink>
+              <button
+                onClick={() => onDelete(product.id)}
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 p-0 hover:bg-gray-100"
+                aria-label="Eliminar producto"
+                disabled={user.Role !== "Registrador"}
+              >
+                <Trash />
+              </button>
+            </>
+          )}
         </div>
       </td>
     </tr>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import FormHeader from "../components/common/FormHeader";
 import FormSection from "../components/common/FormSection";
 import TextInput from "../components/common/TextInput";
@@ -8,6 +8,7 @@ import SelectInput from "../components/common/SelectInput";
 import PasswordInput from "../components/common/PasswordInput";
 import FormActions from "../components/common/FormActions";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 
 const UserForm = () => {
   const BASE_URL = "http://localhost:3000/api/users";
@@ -67,21 +68,25 @@ const UserForm = () => {
     }
   };
 
-  const updateUser = async (updatedUser) => {
+  const updateUser = async (updatedData) => {
     try {
-      const { data } = await axios.put(`${BASE_URL}/${id}`, updatedUser, {
+      console.log(updatedData)
+      const response = await axios.put(`${BASE_URL}/${id}`, {updatedData}, {
         headers: {
           Authorization: `Bearer ${localStorage.token}`,
         },
       });
-      console.log(data);
+      console.log(response.data);
     } catch (err) {
       console.error("Update user error:", err);
     }
   };
 
+  console.log(roles)
   const onSubmit = async (data) => {
-    delete data.confirmationPassword; // eliminar el campo de confirmación de contraseña antes de enviar los datos
+    delete data.confirmationPassword;
+    data.Role = roles.find((role) => role.id === parseInt(data.Role)).id;
+    console.log(data.Role)
 
     if (id) {
       updateUser(data);
@@ -96,6 +101,11 @@ const UserForm = () => {
     navigate(-1);
   };
 
+  const {user} = useAuth();
+  if (user?.Role !== "SuperAdmin") {
+      return <Navigate to="/" replace />
+    }
+
   return (
     <div className="space-y-6">
       <FormHeader
@@ -109,17 +119,19 @@ const UserForm = () => {
             description="Complete la información del usuario"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <TextInput
-                label="Username"
-                name="username"
-                register={{
-                  ...register("username", {
-                    required: "El username es obligatorio",
-                  }),
-                }}
-                error={errors.username?.message}
-                placeholder="Username del usuario"
-              />
+              {!id && (
+                <TextInput
+                  label="Username"
+                  name="username"
+                  register={{
+                    ...register("username", {
+                      required: "El username es obligatorio",
+                    }),
+                  }}
+                  error={errors.username?.message}
+                  placeholder="Username del usuario"
+                />
+              )}
 
               <TextInput
                 label="Nombre de Usuario"
@@ -147,9 +159,9 @@ const UserForm = () => {
             </div>
             <SelectInput
               label="Rol"
-              name="role"
+              name="Role"
               register={{
-                ...register("role", {
+                ...register("Role", {
                   required: "El rol del usuario es obligatorio",
                 }),
               }}
@@ -164,7 +176,6 @@ const UserForm = () => {
                 id="password"
                 label="Contraseña"
                 {...register("password", {
-                  
                   minLength: {
                     value: 8,
                     message: "Debe tener al menos 8 caracteres",
@@ -178,7 +189,6 @@ const UserForm = () => {
                 id="confirmationPassword"
                 label="Confirmar Contraseña"
                 {...register("confirmationPassword", {
-                  
                   minLength: {
                     value: 8,
                     message: "Debe tener al menos 8 caracteres",

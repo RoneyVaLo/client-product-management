@@ -5,6 +5,8 @@ import EntityHeader from "../components/common/EntityHeader";
 import EntitySearchBar from "../components/common/EntitySearchBar";
 import DataTable from "../components/common/DataTable";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const ProductManagement = () => {
   const BASE_URL = "http://localhost:3000/api/products";
@@ -12,6 +14,7 @@ const ProductManagement = () => {
   // const { products, deleteProduct, loading } = useProductsContext();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
 
   const columns = [
     { label: "Código", key: "code" },
@@ -74,6 +77,10 @@ const ProductManagement = () => {
   };
 
   if (loading) return <div>Cargando...</div>;
+
+  if ((user?.Role !== "Auditor") && (user?.Role !== "Registrador")) {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <section className="space-y-6">

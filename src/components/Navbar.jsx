@@ -134,10 +134,7 @@ const Navbar = () => {
             <NavLink
               key={item.href}
               to={item.href}
-              className={`flex items-center gap-2 text-base font-medium transition-colors px-2 pt-1 hover:opacity-55 ${
-                pathname === item.href &&
-                "border-b-2 rounded-md border-amber-500"
-              }`}
+              className={`flex items-center gap-2 text-base font-medium transition-colors px-2 pt-1 hover:opacity-55`}
             >
               {item.title}
             </NavLink>

@@ -16,9 +16,10 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import ProductForm from "./pages/ProductForm";
 import UserForm from "./pages/UserForm";
+import RoleForm from "./pages/RoleForm";
 
 const App = () => {
-  const { user, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) return <div>Cargando...</div>;
 
@@ -43,7 +44,6 @@ const App = () => {
           path: "/",
           element: <Layout />,
           children: [
-            // TODO: Añadir restricciones por rol a cada ruta
             { path: "/", element: <Home /> },
             { path: "users", element: <UserManagement /> },
             { path: "users/new", element: <UserForm /> },
@@ -51,15 +51,9 @@ const App = () => {
             { path: "products", element: <ProductManagement /> },
             { path: "products/new", element: <ProductForm /> },
             { path: "products/:id", element: <ProductForm /> },
-            {
-              path: "roles",
-              element:
-                user?.Role.toLowerCase() === "superadmin" ? (
-                  <RoleManagement />
-                ) : (
-                  <Navigate to="/" replace />
-                ),
-            },
+            { path: "roles", element: <RoleManagement />, },
+            { path: "roles/new", element: <RoleForm />, },
+            { path: "roles/:id", element: <RoleForm />, },
           ],
         },
       ],
