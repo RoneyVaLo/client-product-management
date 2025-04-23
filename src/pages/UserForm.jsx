@@ -9,6 +9,7 @@ import PasswordInput from "../components/common/PasswordInput";
 import FormActions from "../components/common/FormActions";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const UserForm = () => {
   const BASE_URL = "http://localhost:3000/api/users";
@@ -37,12 +38,12 @@ const UserForm = () => {
   };
 
   useEffect(() => {
-    loadRoles();
     if (id) {
       preloadUser();
     } else {
       reset();
     }
+    loadRoles();
   }, []);
 
   const loadRoles = async () => {
@@ -63,6 +64,7 @@ const UserForm = () => {
         },
       });
       console.log(data);
+      toast.success("Usuario creado correctamente")
     } catch (err) {
       console.error("Add user error:", err);
     }
@@ -79,6 +81,7 @@ const UserForm = () => {
         },
       });
       console.log(response.data);
+      toast.success("Usuario actualizado correctamente")
     } catch (err) {
       console.error("Update user error:", err);
     }
@@ -94,7 +97,6 @@ const UserForm = () => {
       updateUser(data);
     } else {
       addUser(data);
-      // console.log(response)
     }
     navigate("/users");
   };

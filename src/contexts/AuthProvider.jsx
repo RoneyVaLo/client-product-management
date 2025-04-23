@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     return null;
   };
-  
+
   const login = async (userData) => {
     try {
       const response = await axios.post(
@@ -60,6 +60,16 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("userId", JSON.stringify(user.id));
 
       const currentUser = await getCurentUser(token, user.id);
+      const updatedLogin = await axios.patch(
+        `http://localhost:3000/api/users/${user.id}/last-login`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(updatedLogin);
       setUser(currentUser);
 
       return response;

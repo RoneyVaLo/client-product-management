@@ -12,7 +12,7 @@ import { useAuth } from "../contexts/AuthContext";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const pathname = location.pathname;
 
@@ -41,10 +41,13 @@ const Navbar = () => {
     },
   ];
 
+  const handleLogout = () => {
+    logout();
+    // window.location.reload();
+  };
+
   const filteredNavItems = navItems.filter(
-    (item) =>
-      !item.role ||
-      item.role === user.Role.toLowerCase()
+    (item) => !item.role || item.role === user.Role.toLowerCase()
   );
 
   return (
@@ -99,19 +102,14 @@ const Navbar = () => {
                       {item.title}
                     </NavLink>
                   ))}
-                  <NavLink
-                    to="/"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpen(false);
-                      window.location.href = "/";
-                    }}
+                  <button
+                    onClick={handleLogout}
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm
           font-medium text-red-600 hover:bg-gray-100"
                   >
                     <LogOut />
                     Cerrar Sesión
-                  </NavLink>
+                  </button>
                 </nav>
               </div>
             </div>
@@ -155,6 +153,14 @@ const Navbar = () => {
             {user.name.substring(0, 2).toUpperCase()}
           </div>
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm
+          font-medium text-red-600 hover:text-red-400"
+        >
+          <LogOut />
+        </button>
       </div>
     </div>
   );
